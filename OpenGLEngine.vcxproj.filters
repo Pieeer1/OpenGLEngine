@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Extensions">
       <UniqueIdentifier>{f1d5fca3-49fd-44c6-8fc2-d125c2a13668}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{15195bd5-38de-4b05-bc0c-7302e81d50bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{e50393fc-12a3-4d1d-a67b-9f60656a50c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c">
@@ -33,6 +39,9 @@
     <ClCompile Include="FileExtensions.cpp">
       <Filter>Source Files\Extensions</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
@@ -44,13 +53,16 @@
     <ClInclude Include="FileExtensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="vertices.vert">
-      <Filter>Resource Files</Filter>
+    <None Include="default.frag">
+      <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="fragments.frag">
-      <Filter>Resource Files</Filter>
+    <None Include="default.vert">
+      <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

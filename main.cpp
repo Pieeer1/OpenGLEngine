@@ -3,13 +3,10 @@
 #include <GLFW/glfw3.h>
 #include "Logger.h"
 #include "FileExtensions.h"
-
+#include "Shader.h"
 //TODO - CHANGE TO DYNAMICALLY READ FROM CONFIG FILE
 #define SCREEN_X 800
 #define SCREEN_Y 800
-
-GLuint SetupVertexShaders();
-GLuint SetupFragmentShaders();
 
 int main()
 {
@@ -34,20 +31,7 @@ int main()
 
 	glViewport(0, 0, SCREEN_X, SCREEN_Y);
 
-	//SHADERS
-	GLuint vertexShader = SetupVertexShaders();
-	GLuint fragmentShader = SetupFragmentShaders();
-
-	GLuint shaderProgram = glCreateProgram();
-
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-
-	glLinkProgram(shaderProgram);
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
+	
 	GLfloat vertices[] =
 	{
 		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower left corner
@@ -64,6 +48,9 @@ int main()
 		3, 2, 4,
 		5, 4, 1
 	};
+
+	//Shader Setup
+	Shader* defaultShader = new Shader("default.vert", "default.frag");
 
 
 	//BUFFER BINDING
@@ -95,7 +82,7 @@ int main()
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(shaderProgram);
+		defaultShader->Activate();
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
 
@@ -107,28 +94,10 @@ int main()
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
-	glDeleteProgram(shaderProgram);
+	defaultShader->Delete();
+
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
 	return 0;
-}
-
-GLuint SetupVertexShaders()
-{
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	std::string referenceableVertexString = FileExtensions::ReadEntireFileText("vertices.vert");
-	const char* verticesString = referenceableVertexString.c_str();
-	glShaderSource(vertexShader, 1, &verticesString, NULL);
-	glCompileShader(vertexShader);
-	return vertexShader;
-}
-GLuint SetupFragmentShaders()
-{
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	std::string referenceableFragmentString = FileExtensions::ReadEntireFileText("fragments.frag");
-	const char* fragmentString = referenceableFragmentString.c_str();
-	glShaderSource(fragmentShader, 1, &fragmentString, NULL);
-	glCompileShader(fragmentShader);
-	return fragmentShader;
 }
