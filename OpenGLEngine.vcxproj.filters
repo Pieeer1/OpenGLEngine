@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Logger">
       <UniqueIdentifier>{0bd712da-ceb3-4c1d-8ada-7c7fa9bbcf58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Extensions">
+      <UniqueIdentifier>{f1d5fca3-49fd-44c6-8fc2-d125c2a13668}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c">
@@ -27,6 +30,9 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files\Logger</Filter>
     </ClCompile>
+    <ClCompile Include="FileExtensions.cpp">
+      <Filter>Source Files\Extensions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
@@ -35,5 +41,16 @@
     <ClInclude Include="ConsoleColors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FileExtensions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="vertices.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="fragments.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

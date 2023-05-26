@@ -22,3 +22,23 @@ void Logger::LogError(const char* str)
 	std::cout << str << std::endl;
 	ResetColor();
 }
+void Logger::LogInformation(std::string str)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), ConsoleColors::BlackBack | ConsoleColors::BlueFore);
+	std::cout << str << std::endl;
+	ResetColor();
+
+}
+void Logger::LogWarning(std::string str)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), ConsoleColors::BlackBack | ConsoleColors::YellowFore);
+	std::cout << str << std::endl;
+	ResetColor();
+
+}
+void Logger::LogError(std::string str)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), ConsoleColors::BlackBack | ConsoleColors::RedFore);
+	std::cout << str << std::endl;
+	ResetColor();
+}
