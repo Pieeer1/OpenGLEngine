@@ -31,3 +31,4 @@
 *.out
 *.app
 /.vs/OpenGLEngine
+/x64/Debug
