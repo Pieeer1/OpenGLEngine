@@ -1,9 +1,13 @@
 #include <iostream>
-#include <glad/glad.h>
+#include <glad/glad.h> // do not remove, causes compilation error
 #include <GLFW/glfw3.h>
 #include "Logger.h"
 #include "FileExtensions.h"
 #include "Shader.h"
+#include "VertexArray.h"
+#include "VertexBuffer.h"
+#include "ElementArrayBuffer.h"
+
 //TODO - CHANGE TO DYNAMICALLY READ FROM CONFIG FILE
 #define SCREEN_X 800
 #define SCREEN_Y 800
@@ -50,31 +54,17 @@ int main()
 	};
 
 	//Shader Setup
-	Shader* defaultShader = new Shader("default.vert", "default.frag");
+	Shader defaultShader("default.vert", "default.frag");
+	VertexArray vertexArray;
+	vertexArray.Bind();
 
+	VertexBuffer vertexBuffer(vertices, sizeof(vertices));
+	ElementArrayBuffer elementArrayBuffer(indices, sizeof(indices));
 
-	//BUFFER BINDING
-	GLuint VAO, VBO, EBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-
-
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	
-	glEnableVertexAttribArray(0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	vertexArray.LinkVertexBuffer(vertexBuffer, 0);
+	vertexArray.Unbind();
+	vertexBuffer.Unbind();
+	elementArrayBuffer.Unbind();
 
 
 	while (!glfwWindowShouldClose(window))
@@ -82,8 +72,10 @@ int main()
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		defaultShader->Activate();
-		glBindVertexArray(VAO);
+		defaultShader.Activate();
+
+		vertexArray.Bind();
+
 		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
@@ -91,11 +83,10 @@ int main()
 		glfwPollEvents();
 	}
 
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
-	defaultShader->Delete();
-
+	defaultShader.Delete();
+	vertexArray.Delete();
+	vertexBuffer.Delete();
+	elementArrayBuffer.Delete();
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
